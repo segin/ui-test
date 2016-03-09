@@ -11,7 +11,7 @@ function Player(name, score) {
 function addRankings() {
 	var splitRanking = [];
 
-	// Split multiple rankings at the semi-colon
+	/* Split multiple rankings at the semi-colon
 	if(document.getElementByID('ranking-entry').value.contains (";")){
 		var splitRanking = document.getElementByID('ranking-entry').value.split('; ');
 	}
@@ -20,33 +20,27 @@ function addRankings() {
 	// Split each ranking at the comma - name and score
 	for (var i = 0; i < splitRanking.length; i++){
 		var splitRanking[i] = splitRanking[i].split(', ');
-	}
-	// var splitRanking = document.getElementByID('ranking-entry').value.split(", ");
+	} */
+
+	var splitRanking = document.getElementByID('ranking-entry').value.split(", ");
 
 	// Take name and capitalize the first letter
-	var properName = "";
-	for (var i = 0; i < splitRanking.length; i++){
-		capitalizeName(splitRanking [i][0]);
-	} 
+	var properName = capitalizeName(splitRanking[0]);
 
 	// Take string from input after comma and make int
-	for (var i = 0; i < splitRanking.length; i++){
-		parseInt[splitRanking [i][1]];
-	}
+	var properScore = parseInt[splitRanking[1]];
 
 	// Check if user is new or not, add score if not
 	var exists = false;
-		for (var i = 0; i < splitRanking.length; i++){
-			for (var j = 0; j < ranking.length; j++){
-				if(ranking[j].name === splitRanking[i][0]){
-					ranking[j].score += splitRanking[i][1];
-					exists = true;
-					break;
-				}
-				if (!exists){
-					var newbie = new Player(name, score);
-					ranking.push(newbie);
-				}
+		for (var j = 0; j < ranking.length; j++){
+			if(ranking[j].name === splitRanking[0]){
+				ranking[j].score += splitRanking[1];
+				exists = true;
+				break;
+			}
+			if (!exists){
+				var newbie = new Player(name, score);
+				ranking.push(newbie);
 			}
 		}
 
