@@ -1,93 +1,130 @@
-var rankingEntry = $('#ranking-entry');
-var ranking = [];
+(function () {
+    // To hold rankings
+	var rankingStore = [];
 
-// Player Object Construct - holds name and score
-function Player(name, score) {
-	this.name = name;
-	this.score = score;
-}
+    // Object Constructor for Player - name, score
+    function Player(name, score) { 
+        this.name = name;
+        this.score = score;
+    }
 
-// Add a ranking from form submit
-function addRankings() {
-	var splitRanking = [];
+    // Validation to check whether there was input and whether or not it has a comma
+    function validateInput() {
+    	if($("#ranking-entry") === ""){
+    		$("#errors").replaceWith("<div id=\"errorsOn\" class=\"errorsOn\">Name and Score input is required.  Please enter data and try again.</div>");
+    	}
+    	else{
+    		if(document.getElementById("ranking-entry").value.indexOf(',') === -1){
+    			$("#errors").replaceWith("<div id=\"errorsOn\" class=\"errorsOn\">You must include both a name and a score.  Please resubmit your data with a comma separating the values.</div>");
+    		}
+    		else{
+    			$("#errors").replaceWith("<div id=\"errors\" class=\"errors\"></div>")
+    			addRankings();
+    		}
+    	}
+    }
 
-	/* Split multiple rankings at the semi-colon
-	if(document.getElementByID('ranking-entry').value.contains (";")){
-		var splitRanking = document.getElementByID('ranking-entry').value.split('; ');
-	}
-	else var splitRanking[0] = document.getElementByID('ranking-entry').value;
+    // Validates the separated parts of the input
+    function validateParts(array){
+    	$("#errors").replaceWith("<div id=\"errors\" class=\"errors\"></div>");
+    	if(!/^[a-z]+$/.test(array[0])){
+    		$("#errors").replaceWith("<div id=\"errorsOn\" class=\"errorsOn\">Names can only contain letters (A-Z, a-z).  Please enter the name without any special characters.</div>");
+    		return true;
+    	}
+    	else{
+    		if(!/^[0-9]+$/.test(array[1])){
+    			$("#errors").replaceWith("<div id=\"errorsOn\" class=\"errorsOn\">Score can only contain numbers.  Please enter a score with only numbers 0-9.</div>");
+    		return true;
+    		}
+    		else
+    			return false;
+    	}
+    }
 
-	// Split each ranking at the comma - name and score
-	for (var i = 0; i < splitRanking.length; i++){
-		var splitRanking[i] = splitRanking[i].split(', ');
-	} */
+    // Clears what is stored in the ranking store for next use
+    function clearRankingStore() {
+        if ($("#rankedScores").has("li").length ) {
+            $( "#rankedScores li" ).remove();
+        }
+        rankingStore.length = 0;
+    }
 
-	var splitRanking = document.getElementByID('ranking-entry').value.split(", ");
-
-	// Take name and capitalize the first letter
-	var properName = capitalizeName(splitRanking[0]);
-
-	// Take string from input after comma and make int
-	var properScore = parseInt[splitRanking[1]];
-
-	// Check if user is new or not, add score if not
-	var exists = false;
-		for (var j = 0; j < ranking.length; j++){
-			if(ranking[j].name === splitRanking[0]){
-				ranking[j].score += splitRanking[1];
-				exists = true;
-				break;
-			}
-			if (!exists){
-				var newbie = new Player(name, score);
-				ranking.push(newbie);
-			}
-		}
-
-	// Clear work done by adding rankings
-	clearRankingEntry();
-    displayRankings();
-}
-
-// Clears the ranking-entry field - addRanking Helper
-function clearRankingEntry() {
+    // Clears the ranking entry item for more entries
+    function clearRankingEntry() {
         document.getElementById("ranking-entry").value = '';
     }
 
-// Capitalize the first letter of name in entry - addRanking Helper
-function capitalizeName(str) {
-	return str.charAt(0).toUpperCase() + str.slice(1);
-}
+    // Capitalizes the name in the list if they are not already
+    function capitalizeName(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+    
+    // Adds rankings to the list
+    function addRankings() {      
+        var parts = document.getElementById("ranking-entry").value.split(", ");
+        if (!validateParts(parts)){
+	        var name = capitalizeName(parts[0]);
+	        var score = parseInt(parts[1]);
+	        var existingPerson = false;
+	        
+	        // If player already exists, update their score.
+	        for (var i = 0; i < rankingStore.length; i++) {
+	            if (rankingStore[i].name === name) {
+	                rankingStore[i].score += score;
+	                existingPerson = true;
+	                break; 
+	                }
+	            }     
+	        
+	        // If player is new, create a new player object
+	        if (!existingPerson) {
+	            var newPlayer = new Player(name, score);
+	            rankingStore.push(newPlayer);
+	        }
+	    }
+        // Cleans up after adding entry
+        clearRankingEntry();
+        displayRankings();
+    }
 
-function buildRankings() {
-	orderRankings();
+    // Sorts the rankings list in order of score
+    function sortList() {
+        rankingStore.sort(function(x, y) {
+            return y.score - x.score;
+        });
+    }
 
-	$("#rankings").replaceWith("<ol id=\"rankings\">");
+    // Displays the rankings on the page
+    function displayRankings() {
+    
+        sortList();
+        
+        // Change to an ordered list
+        $("#rankedScores").replaceWith("<ol id=\"rankedScores\">");
+    
+        // Remove any previous list items
+        if($("#rankedScores").has("listItem").length ) {
+            $("#rankedScores listItem").remove();
+        }
+        
+        // Add each player to the list
+        for (var i = 0; i < rankingStore.length; i++) {
+            var list = document.getElementById("rankedScores");
+            var listItem = document.createElement("listItem");
+            var points = ((rankingStore[i].score == 1) ? "pt" : "pts"); 
+            var node = document.createTextNode(rankingStore[i].name + ", " + rankingStore[i].score + " " + points);
+            
+            list.appendChild(listItem).appendChild(node);
 
-	for (var i = 0; i < ranking.length; i++) {
-		var list = document.getElementById("rankings");
-		var li = document.createElement("li");
-		var scores = ((ranking[i].score == 1) ? "pt" : "pts");
-		var node = document.createTextNode(ranking[i].name + ", " + ranking[i].score + " " + points);
-		list.appendChild(li).appendChild(node);
-	}
-}
-
-// Orders the rankings before creating the list
-function orderRankings() {
-	ranking.sort(functon (a, b) {
-		return b.score - a.score;
-	});
-}
-
-// Hey, Listen! - event listeners
-$(document).bind('keypress', function(e) {
+        }
+    }
+    
+    // Event listeners 
+    $(document).bind('keypress', function(e) {
        if(e.which === 13) { 
           $('#submit').trigger('click');
        }
     });
-$('#submit').click(addRankings);
-$('#clear').click(function () {
-		$('#rankings').empty();
-		ranking = [];
-});
+    $('#submit').click(validateInput);
+    $('#clear').click(clearRankingStore).click(clearRankingEntry);
+})();

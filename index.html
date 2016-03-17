@@ -8,13 +8,14 @@
     <body>
         <h1>Darts Rankings</h1>
         <div id="form">
-            <form id="addRanking" method="post" action="">
-                <label>Add to Rankings:</label>
-                <input type="text" name="ranking-entry" id="ranking-entry" class="stored" placeholder="John Doe, 12" />
-                <span id="hint">Please enter scores in the format Name, Score.  For example: John Doe, 12</span>
-                <input type="submit" class="submit-button" value="submit" />
-            </form>
+            <label>Add to Rankings:</label>
+            <input type="text" name="ranking-entry" id="ranking-entry" class="stored" placeholder="John Doe, 12" />
+            <span id="hint">Please enter scores in the format Name, Score.  For example: John Doe, 12</span>
+            <div id="errors" class="errors"></div>
+            <button class="submit" id="submit"> Submit </button>
+
         </div>
+        <div id= "scoreboard">
         <ul id="rankedScores"></ul>
             <input type="button" name="clear" class="clear" id="clear" value="Clear Rankings" />
         </div>
