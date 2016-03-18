@@ -1,12 +1,10 @@
-Thank you for your interest in EverQuote.
+This is a web-based ranking system for a darts league.
 ---------------------------------------
-This is a small problem we would like you to solve so that we may better understand your coding ability.
 
-### Criteria
-We will be looking at your problem-solving ability, code quality, cleanliness, and professionalism.
+Using minimally-outlined html, css, and javascript files, I've created a small web-based darts ranking system.
 
-### Project
-We would like you to create a web-based ranking system for a darts league. Minimally-outlined html, css, and javascript files have been provided for you.
+### Extended Features
+* 
 
 ### Rules
 * After each player takes her/his turn, their name and score is entered into the text input in the format `name, score`.
@@ -48,9 +46,6 @@ Jollyby, 42
 * Please do not include library source code in your application – instead, use Bower or link to a CDN.
 * jQuery and lodash have been included in the source for you to use if you wish to use them.
 * If you are using a build tool (eg Yeoman, Grunt, etc), please submit the the code as-authored, **as well as any compiled production files.**
-
-### Browser Support
-We will test your application in Chrome. Please use code that would work in any modern browser. Don't stress about IE < 10.
 
 ### Bonus
 * Writing automated tests for your code.
