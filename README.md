@@ -14,7 +14,7 @@ Using minimally-outlined html, css, and javascript files, I've created a small w
 * Players can take any number of turns. The results of multiple turns are added to the players' score.
 
 ### Example
-The following game should produce the specified output.
+The following game will produce the specified output.
 
 #### Game:
 ```

@@ -42,25 +42,25 @@
     }
 
     // Clears what is stored in the ranking store for next use
-    function clearRankingStore() {
-        if ($("#rankedScores").has("li").length ) {
+    function clearRankingStore(){
+        if ($("#rankedScores").has("li").length ){
             $( "#rankedScores li" ).remove();
         }
         rankingStore.length = 0;
     }
 
     // Clears the ranking entry item for more entries
-    function clearRankingEntry() {
+    function clearRankingEntry(){
         document.getElementById("ranking-entry").value = '';
     }
 
     // Capitalizes the name in the list if they are not already
-    function capitalizeName(str) {
+    function capitalizeName(str){
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
     
     // Adds rankings to the list
-    function addRankings() {      
+    function addRankings(){      
         var parts = document.getElementById("ranking-entry").value.split(", ");
         if (!validateParts(parts)){
 	        var name = capitalizeName(parts[0]);
@@ -103,19 +103,40 @@
         $("#rankedScores").replaceWith("<ol id=\"rankedScores\">");
     
         // Remove any previous list items
-        if($("#rankedScores").has("listItem").length ) {
-            $("#rankedScores listItem").remove();
+        if($("#rankedScores").has("li").length ) {
+            $("#rankedScores li").remove();
         }
         
-        // Add each player to the list
         for (var i = 0; i < rankingStore.length; i++) {
-            var list = document.getElementById("rankedScores");
-            var listItem = document.createElement("listItem");
-            var points = ((rankingStore[i].score == 1) ? "pt" : "pts"); 
-            var node = document.createTextNode(rankingStore[i].name + ", " + rankingStore[i].score + " " + points);
-            
-            list.appendChild(listItem).appendChild(node);
+        	var list = document.getElementById("rankedScores");
+	        if (1 == rankingStore.indexOf(rankingStore[i])){
+	        	var li = document.createElement("li");
+	        }
+	        else{
+	        	var li = document.createElement("li class=\"no-increment\"")
+	        }
+	     }
 
+        // Add each player to the list
+        /*for (var i = 0; i < rankingStore.length; i++) {
+            var list = document.getElementById("rankedScores");
+            if (i > 1){
+	            if (rankingStore[i].score == rankingStore[i-1].score){
+	            	var li = document.createElement("li class=\"no-increment\"")
+	            }
+	            if (rankingStore[i].score == rankingStore[i+1].score){
+	            	var li = document.createElement("li class=\"no-increment\"")
+	            }
+	            else {
+	            	var li = document.createElement("li");
+	            }
+	        }
+	        else {
+	            	var li = document.createElement("li");
+	            }*/
+            var points = ((rankingStore[i].score == 1) ? "pt" : "pts"); 
+            var node = document.createTextNode(rankingStore[i].name + ", " + rankingStore[i].score + " " + points);   
+            list.appendChild(li).appendChild(node);
         }
     }
     
