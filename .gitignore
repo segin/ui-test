@@ -1,0 +1,4 @@
+# Ignore Mac OS X metadata hidden files, created by Finder
+**/.DS_Store
+# Ignore "backup" files created by common editors like vim
+**/*~
