@@ -110,13 +110,21 @@
 		// Add each player to the list
 		for (var i = 0; i < rankingStore.length; i++) {
 			var list = document.getElementById("rankedScores");
-			if(i > 1){
+			if(i > 0){
 				if (rankingStore[i].score == rankingStore[i-1].score){
-                    alert(rankingStore[i].score + " " + rankingStore[i-1].score);
-					var li = document.createElement("li value=\"i-1\"")
-				}
-				else {
 					var li = document.createElement("li");
+                    var val = document.createAttribute("value");
+                    val.value = i.toString();
+                    li.setAttributeNode(val);
+				}
+                else if(i > 2 && (rankingStore[i-1].score == rankingStore[i-2].score)){
+                    var li = document.createElement("li");
+                    var val = document.createAttribute("value");
+                    val.value = (i+1).toString();
+                    li.setAttributeNode(val);
+                }
+                else {
+                    var li = document.createElement("li");
 				}
 			}
 			else {
